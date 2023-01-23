@@ -7,6 +7,10 @@ public class Player : MonoBehaviour
     public Rigidbody playerRigidbody;
     public Collider playerCollider;
     public float playerSpeed;
+
+    public static int playerMaxHealth;
+    public static float playerCurrentHealth;
+    public static int playerDamage;
     
     void Start()
     {
