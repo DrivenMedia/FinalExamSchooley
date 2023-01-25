@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject tileCollection;
-    static public Component[] tileTransforms;
+    public Component[] tileTransforms;
     public GameObject player;
 
     // Start is called before the first frame update

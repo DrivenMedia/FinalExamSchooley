@@ -9,26 +9,37 @@ public class MeleeEnemy : MonoBehaviour
     public Vector3 desiredTileVector3;
     public float closestDistance = 100;
     public GameManager gameManager;
+    public bool isSearching = true;
 
 
     void Start()
     {
-        
+        desiredTileVector3 = new Vector3(transform.position.x,transform.position.y,transform.position.z);
     }
 
     void Update()
     {
-        closestDistance = 100;
-        for (int i = 0; i < GameManager.tileTransforms.Length; i++)
+        if (desiredTileVector3 == new Vector3(transform.position.x,transform.position.y,transform.position.z) && !isSearching)
         {
-            if (Mathf.Sqrt((GameManager.tileTransforms[i].transform.position.x - transform.position.x) * (GameManager.tileTransforms[i].transform.position.x - transform.position.x) + (GameManager.tileTransforms[i].transform.position.y - transform.position.y) * (GameManager.tileTransforms[i].transform.position.y - transform.position.y)) <= 1f)
+            isSearching = true;
+        }
+        if (isSearching)
+        {
+            closestDistance = 100;
+            for (int i = 0; i < gameManager.tileTransforms.Length; i++)
             {
-                if (Mathf.Sqrt((GameManager.tileTransforms[i].transform.position.x - gameManager.player.transform.position.x) * (GameManager.tileTransforms[i].transform.position.x - gameManager.player.transform.position.x) + (GameManager.tileTransforms[i].transform.position.y - gameManager.player.transform.position.y) * (GameManager.tileTransforms[i].transform.position.y - gameManager.player.transform.position.y)) <= closestDistance)
+                float tileDistanceFromEnemy = Mathf.Sqrt((gameManager.tileTransforms[i].transform.position.x - transform.position.x) * (gameManager.tileTransforms[i].transform.position.x - transform.position.x) + (gameManager.tileTransforms[i].transform.position.y - transform.position.y) * (gameManager.tileTransforms[i].transform.position.y - transform.position.y));
+                if (tileDistanceFromEnemy <= 1f)
                 {
-                    closestDistance = Mathf.Sqrt((GameManager.tileTransforms[i].transform.position.x - transform.position.x) * (GameManager.tileTransforms[i].transform.position.x - transform.position.x) + (GameManager.tileTransforms[i].transform.position.y - transform.position.y) * (GameManager.tileTransforms[i].transform.position.y - transform.position.y));
-                    desiredTileVector3 = new Vector3(GameManager.tileTransforms[i].transform.position.x,GameManager.tileTransforms[i].transform.position.y,0);
+                    float tileDistanceFromPlayer = Mathf.Sqrt((gameManager.tileTransforms[i].transform.position.x - gameManager.player.transform.position.x) * (gameManager.tileTransforms[i].transform.position.x - gameManager.player.transform.position.x) + (gameManager.tileTransforms[i].transform.position.y - gameManager.player.transform.position.y) * (gameManager.tileTransforms[i].transform.position.y - gameManager.player.transform.position.y));
+                    if (tileDistanceFromPlayer <= closestDistance)
+                    {
+                        closestDistance = tileDistanceFromPlayer;
+                        desiredTileVector3 = new Vector3(gameManager.tileTransforms[i].transform.position.x,gameManager.tileTransforms[i].transform.position.y,0);
+                    }
                 }
             }
+            isSearching = false;
         }
         transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, desiredTileVector3.x, speed / 60f), Mathf.MoveTowards(transform.position.y, desiredTileVector3.y, speed / 60f), 0);
     }
