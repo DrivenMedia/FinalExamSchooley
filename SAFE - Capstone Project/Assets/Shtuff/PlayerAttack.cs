@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         zeroPoint = new Vector2(worldPosition.x - transform.position.x, worldPosition.y - transform.position.y);
         if(worldPosition.x > transform.position.x) weapon.transform.rotation = Quaternion.Euler(0, 0, (Mathf.Atan(zeroPoint.y/zeroPoint.x) * (180 / Mathf.PI)) - 90);
-        else weapon.transform.rotation = Quaternion.Euler(0, 0, ((Mathf.Atan(zeroPoint.y/zeroPoint.x) * (180 / Mathf.PI)) + 90));
+        else weapon.transform.rotation = Quaternion.Euler(0, 0, ((Mathf.Atan(zeroPoint.y/zeroPoint.x) * (180 / Mathf.PI))) + 90);
         
     }
 }
